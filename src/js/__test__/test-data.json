@@ -1,0 +1,406 @@
+{
+  "geoInfo": {
+    "region": "Volgograd Oblast",
+    "latitude": "48.7168",
+    "longitude": "44.5035",
+    "accuracy": 20,
+    "country_code": "RU",
+    "timezone": "Europe/Volgograd",
+    "asn": 39435,
+    "organization": "AS39435 JSC ER-Telecom Holding",
+    "area_code": "0",
+    "country": "Russia",
+    "city": "Volgograd",
+    "organization_name": "JSC ER-Telecom Holding",
+    "ip": "188.233.4.55",
+    "country_code3": "RUS",
+    "continent_code": "EU"
+  },
+
+  "weatherInfoArray": [
+    {
+      "city": "Воронеж",
+      "temp": -2.02,
+      "icon": "04d",
+      "coord": {
+        "latitude": 51.6606,
+        "longitude": 39.2006
+      }
+    },
+    {
+      "city": "Чита",
+      "temp": -4.99,
+      "icon": "04n",
+      "coord": {
+        "latitude": 52.0334,
+        "longitude": 113.5009
+      }
+    },
+    {
+      "city": "Волгоград",
+      "temp": 6.51,
+      "icon": "04d",
+      "coord": {
+        "latitude": 48.7168,
+        "longitude": 44.5035
+      }
+    },
+    {
+      "city": "Благовещенск",
+      "temp": -13.06,
+      "icon": "04n",
+      "coord": {
+        "latitude": 50.2905,
+        "longitude": 127.5272
+      }
+    },
+    {
+      "city": "Махачкала",
+      "temp": 12.77,
+      "icon": "04d",
+      "coord": {
+        "latitude": 42.983,
+        "longitude": 47.5049
+      }
+    },
+    {
+      "city": "Астрахань",
+      "temp": 10.48,
+      "icon": "01d",
+      "coord": {
+        "latitude": 46.3498,
+        "longitude": 48.0326
+      }
+    },
+    {
+      "city": "Грозный",
+      "temp": 12.21,
+      "icon": "01d",
+      "coord": {
+        "latitude": 43.3197,
+        "longitude": 45.6934
+      }
+    },
+    {
+      "city": "Елец",
+      "temp": -2.4,
+      "icon": "04d",
+      "coord": {
+        "latitude": 52.622,
+        "longitude": 38.5003
+      }
+    },
+    {
+      "city": "Липецк",
+      "temp": -1.96,
+      "icon": "13d",
+      "coord": {
+        "latitude": 52.6042,
+        "longitude": 39.5937
+      }
+    },
+    {
+      "city": "Якутск",
+      "temp": -32.01,
+      "icon": "01n",
+      "coord": {
+        "latitude": 62.0274,
+        "longitude": 129.732
+      }
+    }
+  ],
+
+  "openWeatherResponse": [
+    {
+      "coord": {
+        "lon": 44.5035,
+        "lat": 48.7168
+      },
+      "weather": [
+        {
+          "id": 800,
+          "main": "Clear",
+          "description": "ясно",
+          "icon": "01n"
+        }
+      ],
+      "base": "stations",
+      "main": {
+        "temp": -2.49,
+        "feels_like": -6.49,
+        "temp_min": -2.86,
+        "temp_max": -2.49,
+        "pressure": 1021,
+        "humidity": 74
+      },
+      "visibility": 10000,
+      "wind": {
+        "speed": 3,
+        "deg": 230
+      },
+      "clouds": {
+        "all": 0
+      },
+      "dt": 1668543344,
+      "sys": {
+        "type": 1,
+        "id": 8973,
+        "country": "RU",
+        "sunrise": 1668485411,
+        "sunset": 1668518586
+      },
+      "timezone": 10800,
+      "id": 472757,
+      "name": "Волгоград",
+      "cod": 200
+    },
+    {
+      "coord": {
+        "lon": 27.5618,
+        "lat": 53.9025
+      },
+      "weather": [
+        {
+          "id": 804,
+          "main": "Clouds",
+          "description": "пасмурно",
+          "icon": "04n"
+        }
+      ],
+      "base": "stations",
+      "main": {
+        "temp": 3.92,
+        "feels_like": 1.72,
+        "temp_min": 3.92,
+        "temp_max": 3.92,
+        "pressure": 1011,
+        "humidity": 90,
+        "sea_level": 1011,
+        "grnd_level": 986
+      },
+      "visibility": 10000,
+      "wind": {
+        "speed": 2.39,
+        "deg": 326,
+        "gust": 4.82
+      },
+      "clouds": {
+        "all": 100
+      },
+      "dt": 1668543672,
+      "sys": {
+        "type": 1,
+        "id": 8939,
+        "country": "BY",
+        "sunrise": 1668490601,
+        "sunset": 1668521529
+      },
+      "timezone": 10800,
+      "id": 625143,
+      "name": "Минск",
+      "cod": 200
+    },
+    {
+      "coord": {
+        "lon": 38.2748,
+        "lat": 46.7112
+      },
+      "weather": [
+        {
+          "id": 801,
+          "main": "Clouds",
+          "description": "небольшая облачность",
+          "icon": "02n"
+        }
+      ],
+      "base": "stations",
+      "main": {
+        "temp": 3.81,
+        "feels_like": 0.23,
+        "temp_min": 3.81,
+        "temp_max": 3.81,
+        "pressure": 1020,
+        "humidity": 56,
+        "sea_level": 1020,
+        "grnd_level": 1019
+      },
+      "visibility": 10000,
+      "wind": {
+        "speed": 4.28,
+        "deg": 140,
+        "gust": 5.9
+      },
+      "clouds": {
+        "all": 18
+      },
+      "dt": 1668543697,
+      "sys": {
+        "country": "RU",
+        "sunrise": 1668486543,
+        "sunset": 1668520445
+      },
+      "timezone": 10800,
+      "id": 466885,
+      "name": "Ейск",
+      "cod": 200
+    }
+  ],
+
+  "geocodingResponse": [
+    {
+      "name": "Volgograd",
+      "local_names": {
+        "az": "Volqoqrad",
+        "bg": "Волгоград",
+        "ja": "ヴォルゴクラード",
+        "it": "Volgogrado",
+        "tr": "Volgograd",
+        "hr": "Volgograd",
+        "el": "Βόλγκογκραντ",
+        "vi": "thành phố trên sông Volga",
+        "ku": "Volgograd",
+        "ar": "فولغوغراد",
+        "pt": "Volgogrado",
+        "ascii": "Volgograd",
+        "kn": "ವೋಲ್ಗೊಗ್ರಾಡ್",
+        "en": "Volgograd",
+        "ca": "Volgograd",
+        "feature_name": "Volgograd",
+        "ru": "Волгоград",
+        "sk": "Volgograd",
+        "fi": "Volgograd",
+        "hu": "Volgográd",
+        "sr": "Волгоград",
+        "be": "Валгаград",
+        "fr": "Volgograd",
+        "cs": "Volgograd",
+        "lt": "Volgogradas",
+        "et": "Volgograd",
+        "ka": "ვოლგოგრადი",
+        "pl": "Wołgograd",
+        "es": "Volgogrado",
+        "uk": "Волгоград",
+        "fa": "ولگوگراد",
+        "ta": "வோல்கோகிராட்",
+        "ko": "볼고그라드",
+        "hy": "Վոլգոգրադ",
+        "hi": "वोल्गोग्राद",
+        "oc": "Volgograd",
+        "ro": "Volgograd",
+        "ml": "വോൾഗോഗ്രാഡ്",
+        "de": "Wolgograd"
+      },
+      "lat": 48.7081906,
+      "lon": 44.5153353,
+      "country": "RU",
+      "state": "Volgograd Oblast"
+    },
+    {
+      "name": "Minsk",
+      "local_names": {
+        "kk": "Минск",
+        "cu": "Мѣньскъ",
+        "fi": "Minsk",
+        "pt": "Minsk",
+        "it": "Minsk",
+        "fa": "مینسک",
+        "vi": "Minxcơ",
+        "ar": "مينسك",
+        "ml": "മിൻസ്ക്",
+        "hr": "Minsk",
+        "tt": "Минск",
+        "nl": "Minsk",
+        "feature_name": "Minsk",
+        "sl": "Minsk",
+        "hu": "Minszk",
+        "ko": "민스크",
+        "io": "Minsk",
+        "ku": "Mînsk",
+        "eo": "Minsko",
+        "ja": "ミンスク",
+        "tg": "Минск",
+        "et": "Minsk",
+        "hi": "मिन्‍स्‍क",
+        "ia": "Minsk",
+        "fr": "Minsk",
+        "is": "Minsk",
+        "mr": "मिन्‍स्‍क",
+        "sr": "Минск",
+        "ru": "Минск",
+        "es": "Minsk",
+        "ascii": "Minsk",
+        "he": "מינסק",
+        "sv": "Minsk",
+        "ta": "மின்ஸ்க்",
+        "el": "Μινσκ",
+        "hy": "Մինսկ",
+        "lt": "Minskas",
+        "en": "Minsk",
+        "oc": "Minsk",
+        "be": "Мінск",
+        "ka": "მინსკი",
+        "yi": "מינסק",
+        "mk": "Минск",
+        "de": "Minsk",
+        "cs": "Minsk",
+        "la": "Minscum",
+        "kv": "Минск",
+        "no": "Minsk",
+        "gl": "Minsk",
+        "th": "มินสก์",
+        "zh": "明斯克",
+        "ug": "مىنىسكى",
+        "sk": "Minsk",
+        "bg": "Минск",
+        "pl": "Mińsk",
+        "vo": "Minsk",
+        "ga": "Minsc",
+        "ur": "منسک",
+        "ky": "Минск",
+        "kn": "ಮಿನ್ಸ್ಕ್",
+        "uk": "Мінськ",
+        "lv": "Minska",
+        "os": "Минск",
+        "cv": "Минск",
+        "bo": "མིན་སིཀ།"
+      },
+      "lat": 53.9024716,
+      "lon": 27.5618225,
+      "country": "BY"
+    },
+    {
+      "name": "Yeysk",
+      "local_names": {
+        "sv": "Jejsk",
+        "ru": "Ейск",
+        "az": "Yeysk",
+        "ml": "യെയിസ്ക്",
+        "ascii": "Yeysk",
+        "ro": "Eisk",
+        "uk": "Єйськ",
+        "et": "Jeisk",
+        "feature_name": "Yeysk",
+        "eo": "Jejsko",
+        "sr": "Јејск",
+        "fr": "Ieïsk",
+        "be": "Ейск",
+        "ja": "エイスク",
+        "fi": "Jeisk",
+        "ar": "ييسك",
+        "ca": "Ieisk",
+        "es": "Yeisk",
+        "nl": "Jejsk",
+        "pl": "Jejsk",
+        "it": "Ejsk",
+        "zh": "葉伊斯克",
+        "de": "Jeisk",
+        "ko": "예이스크",
+        "en": "Yeysk"
+      },
+      "lat": 46.7112094,
+      "lon": 38.2747987,
+      "country": "RU",
+      "state": "Krasnodar Krai"
+    }
+  ]
+}

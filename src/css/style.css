@@ -1,0 +1,75 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
+
+:root {
+  font-family: "Montserrat", Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main {
+  margin: 0 auto;
+  min-width: 320px;
+  max-width: 1200px;
+}
+
+.section {
+  padding: 20px;
+}
+
+.title {
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.input,
+.btn {
+  padding: 6px 8px;
+  border: 1px solid #a3a3a3;
+  border-radius: 2px;
+}
+
+.input {
+  margin-right: 2px;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.weather-info {
+  margin-top: 30px;
+}
+
+.weather-history {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.weather-history__item:hover {
+  cursor: pointer;
+  color: #4567c7;
+}
+
+.weather-main {
+  display: flex;
+  align-items: center;
+}
+
+.weather-map {
+  padding: 30px 0;
+}
+
+.weather-map > img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+}

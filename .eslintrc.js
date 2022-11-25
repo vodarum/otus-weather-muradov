@@ -18,6 +18,7 @@ module.exports = {
         exceptMethods: [
           "createMarkupElement",
           "isDefined",
+          "removeMarkup",
           "saveWeatherInfo",
           "validateCoord",
         ],
