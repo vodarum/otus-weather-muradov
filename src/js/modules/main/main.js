@@ -23,9 +23,13 @@ class Main {
 
     // 2.2) на блок "История"
     const weatherHistoryBlock = document.getElementById("weather-history");
-    weatherHistoryBlock.addEventListener("click", (event) =>
-      this.selectItemFromWeatherHistory(event.target.dataset.whItemId)
-    );
+    weatherHistoryBlock.addEventListener("click", (event) => {
+      const weatherHistoryItem = event.target.closest(".weather-history__item");
+
+      if (weatherHistoryItem) {
+        this.selectItemFromWeatherHistory(weatherHistoryItem.dataset.whItemId);
+      }
+    });
 
     // 3) Добавляем данные на главный экран
     // 3.1) получаем геоданные пользователя
