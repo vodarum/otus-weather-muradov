@@ -12,6 +12,17 @@ module.exports = {
   },
   plugins: ["jest"],
   rules: {
+    "class-methods-use-this": [
+      "error",
+      {
+        exceptMethods: [
+          "createMarkupElement",
+          "isDefined",
+          "saveWeatherInfo",
+          "validateCoord",
+        ],
+      },
+    ],
     "import/prefer-default-export": "off",
     "max-len": [
       "error",
@@ -19,11 +30,14 @@ module.exports = {
         code: 100,
         ignoreComments: true,
         ignoreRegExpLiterals: true,
+        ignoreTemplateLiterals: true,
       },
     ],
     "no-alert": "off",
     "no-console": "off",
     "no-param-reassign": "off",
     "no-plusplus": "off",
+    "no-underscore-dangle": 0,
+    "prefer-destructuring": ["error", { object: true, array: false }],
   },
 };
