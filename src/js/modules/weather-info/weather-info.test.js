@@ -32,7 +32,7 @@ describe("WeatherInfo", () => {
 
         expect(fetch).toHaveBeenCalledTimes(1);
         expect(fetch).toHaveBeenCalledWith(
-          `${WeatherInfo.WEATHER_URL}/data/2.5/weather?lat=${x.coord.lat}&lon=${x.coord.lon}&appid=${WeatherInfo.WEATHER_API_KEY}&units=metric&lang=ru`
+          `${WeatherInfo.WEATHER_URL}?lat=${x.coord.lat}&lon=${x.coord.lon}&appid=${WeatherInfo.WEATHER_API_KEY}&units=metric&lang=ru`
         );
 
         expect(spyError).toHaveBeenCalledTimes(0);
@@ -55,7 +55,7 @@ describe("WeatherInfo", () => {
 
         expect(fetch).toHaveBeenCalledTimes(1);
         expect(fetch).toHaveBeenCalledWith(
-          `${WeatherInfo.WEATHER_URL}/data/2.5/weather?lat=${x.coord.lat}&lon=${x.coord.lon}&appid=${WeatherInfo.WEATHER_API_KEY}&units=metric&lang=ru`
+          `${WeatherInfo.WEATHER_URL}?lat=${x.coord.lat}&lon=${x.coord.lon}&appid=${WeatherInfo.WEATHER_API_KEY}&units=metric&lang=ru`
         );
 
         expect(spyError).toHaveBeenCalledTimes(1);
@@ -79,7 +79,7 @@ describe("WeatherInfo", () => {
 
         expect(fetch).toHaveBeenCalledTimes(1);
         expect(fetch).toHaveBeenCalledWith(
-          `${WeatherInfo.WEATHER_URL}/data/2.5/weather?lat=${x.coord.lat}&lon=${x.coord.lon}&appid=${WeatherInfo.WEATHER_API_KEY}&units=metric&lang=ru`
+          `${WeatherInfo.WEATHER_URL}?lat=${x.coord.lat}&lon=${x.coord.lon}&appid=${WeatherInfo.WEATHER_API_KEY}&units=metric&lang=ru`
         );
 
         expect(spyError).toHaveBeenCalledTimes(1);
@@ -101,51 +101,23 @@ describe("WeatherInfo", () => {
 
     // 2.2) Проверяем случай, когда в качестве аргумента locationName передана пустая строка
     test("argument 'locationName' is empty", async () => {
-      const spyGetWeatherInfoByLocationCoord = jest.spyOn(
-        WeatherInfo,
-        "getWeatherInfoByLocationCoord"
-      );
       const result = await WeatherInfo.getWeatherInfoByLocationName("");
 
       expect(fetch).toHaveBeenCalledTimes(0);
-      expect(spyGetWeatherInfoByLocationCoord).toHaveBeenCalledTimes(0);
       expect(result).toBeInstanceOf(WeatherInfoModel);
     });
 
     // 2.3) Проверяем выполнение fetch
-    describe.each(testData.geocodingResponse)("fetch", (x) => {
-      const ruLocationName = x.local_names.ru;
-      const weatherInfoByLocationName = testData.openWeatherResponse.find(
-        (a) => a.name === ruLocationName
-      );
-
-      let spyGetWeatherInfoByLocationCoord;
-
-      beforeEach(() => {
-        spyGetWeatherInfoByLocationCoord = jest
-          .spyOn(WeatherInfo, "getWeatherInfoByLocationCoord")
-          .mockResolvedValueOnce(
-            new WeatherInfoModel(weatherInfoByLocationName)
-          );
-      });
-
+    describe.each(testData.openWeatherResponse)("fetch", (x) => {
       // 2.3.1) fetch возвращает ответ с успешным статусом
       test("resolved with HTTP successful responses", async () => {
-        fetch.mockResponseOnce(JSON.stringify([x]));
+        fetch.mockResponseOnce(JSON.stringify(x));
 
-        const result = await WeatherInfo.getWeatherInfoByLocationName(
-          ruLocationName
-        );
+        const result = await WeatherInfo.getWeatherInfoByLocationName(x.name);
 
         expect(fetch).toHaveBeenCalledTimes(1);
         expect(fetch).toHaveBeenCalledWith(
-          `${WeatherInfo.WEATHER_URL}/geo/1.0/direct?q=${ruLocationName}&appid=${WeatherInfo.WEATHER_API_KEY}`
-        );
-
-        expect(spyGetWeatherInfoByLocationCoord).toHaveBeenCalledTimes(1);
-        expect(spyGetWeatherInfoByLocationCoord).toHaveBeenCalledWith(
-          x.lat,
-          x.lon
+          `${WeatherInfo.WEATHER_URL}?q=${x.name}&appid=${WeatherInfo.WEATHER_API_KEY}&units=metric&lang=ru`
         );
 
         expect(spyError).toHaveBeenCalledTimes(0);
@@ -157,20 +129,16 @@ describe("WeatherInfo", () => {
       test("resolved with HTTP unsuccessful responses", async () => {
         const unsuccessfulResponseStatus = 404; // For example, 404
 
-        fetch.mockResponseOnce(JSON.stringify([x]), {
+        fetch.mockResponseOnce(JSON.stringify(x), {
           status: unsuccessfulResponseStatus,
         });
 
-        const result = await WeatherInfo.getWeatherInfoByLocationName(
-          ruLocationName
-        );
+        const result = await WeatherInfo.getWeatherInfoByLocationName(x.name);
 
         expect(fetch).toHaveBeenCalledTimes(1);
         expect(fetch).toHaveBeenCalledWith(
-          `${WeatherInfo.WEATHER_URL}/geo/1.0/direct?q=${ruLocationName}&appid=${WeatherInfo.WEATHER_API_KEY}`
+          `${WeatherInfo.WEATHER_URL}?q=${x.name}&appid=${WeatherInfo.WEATHER_API_KEY}&units=metric&lang=ru`
         );
-
-        expect(spyGetWeatherInfoByLocationCoord).toHaveBeenCalledTimes(0);
 
         expect(spyError).toHaveBeenCalledTimes(1);
         expect(spyError).toHaveBeenCalledWith(
@@ -186,16 +154,12 @@ describe("WeatherInfo", () => {
 
         fetch.mockRejectOnce(new Error(errorMessage));
 
-        const result = await WeatherInfo.getWeatherInfoByLocationName(
-          ruLocationName
-        );
+        const result = await WeatherInfo.getWeatherInfoByLocationName(x.name);
 
         expect(fetch).toHaveBeenCalledTimes(1);
         expect(fetch).toHaveBeenCalledWith(
-          `${WeatherInfo.WEATHER_URL}/geo/1.0/direct?q=${ruLocationName}&appid=${WeatherInfo.WEATHER_API_KEY}`
+          `${WeatherInfo.WEATHER_URL}?q=${x.name}&appid=${WeatherInfo.WEATHER_API_KEY}&units=metric&lang=ru`
         );
-
-        expect(spyGetWeatherInfoByLocationCoord).toHaveBeenCalledTimes(0);
 
         expect(spyError).toHaveBeenCalledTimes(1);
         expect(spyError).toHaveBeenCalledWith(

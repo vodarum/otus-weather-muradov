@@ -3,7 +3,7 @@ import { WeatherInfoModel } from "../../models/weather-info";
 import Util from "../../util/util";
 
 class WeatherInfo {
-  WEATHER_URL = "https://api.openweathermap.org";
+  WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather";
 
   WEATHER_API_KEY = "1cf44d73b10a208539e8d4267c92ac9f";
 
@@ -16,7 +16,7 @@ class WeatherInfo {
     let result = new WeatherInfoModel();
 
     try {
-      const url = `${this.WEATHER_URL}/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${this.WEATHER_API_KEY}&units=metric&lang=ru`;
+      const url = `${this.WEATHER_URL}?lat=${latitude}&lon=${longitude}&appid=${this.WEATHER_API_KEY}&units=metric&lang=ru`;
       const response = await fetch(url);
 
       if (!response.ok) {
@@ -44,7 +44,7 @@ class WeatherInfo {
 
     if (locationName) {
       try {
-        const url = `${this.WEATHER_URL}/geo/1.0/direct?q=${locationName}&appid=${this.WEATHER_API_KEY}`;
+        const url = `${this.WEATHER_URL}?q=${locationName}&appid=${this.WEATHER_API_KEY}&units=metric&lang=ru`;
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -53,10 +53,7 @@ class WeatherInfo {
 
         const json = await response.json();
 
-        result = await this.getWeatherInfoByLocationCoord(
-          json[0].lat,
-          json[0].lon
-        );
+        result = new WeatherInfoModel(json);
       } catch (error) {
         console.error(
           `Error in WeatherInfo.getWeatherInfoByLocationName: ${error.message}`
