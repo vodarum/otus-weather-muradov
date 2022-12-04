@@ -1,7 +1,7 @@
-class Util {
+const Util = {
   isDefined(value) {
     return value !== null && typeof value !== "undefined";
-  }
-}
+  },
+};
 
-export default new Util();
+export default Util;
