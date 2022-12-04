@@ -69,6 +69,10 @@ class Markup {
     const title = this.createMarkupElement("h1", { class: "title" });
     title.innerHTML = "Weather App";
 
+    const form = this.createMarkupElement("form", {
+      class: "form",
+      id: "form",
+    });
     const input = this.createMarkupElement("input", {
       type: "text",
       placeholder: "Enter an address or city name",
@@ -76,7 +80,7 @@ class Markup {
       id: "input",
     });
     const button = this.createMarkupElement("button", {
-      type: "button",
+      type: "submit",
       class: "btn",
       id: "btn",
     });
@@ -100,7 +104,8 @@ class Markup {
     });
 
     weatherInfo.append(weatherMain, weatherMap, weatherHistory);
-    section.append(title, input, button, weatherInfo);
+    form.append(input, button);
+    section.append(title, form, weatherInfo);
     main.append(section);
 
     document.body.append(main);

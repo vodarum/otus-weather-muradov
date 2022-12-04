@@ -17,9 +17,12 @@ class Main {
     Markup.createInitialMarkup();
 
     // 2) Вешаем обработчики на элементы страницы
-    // 2.1) на кнопку "Enter"
-    const btn = document.getElementById("btn");
-    btn.addEventListener("click", () => this.search());
+    // 2.1) на форму отправки запроса информации о погоде
+    const form = document.getElementById("form");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      this.search();
+    });
 
     // 2.2) на блок "История"
     const weatherHistoryBlock = document.getElementById("weather-history");

@@ -142,6 +142,9 @@ describe("Markup", () => {
       expect(title).toBeTruthy();
       expect(title.innerHTML).toBe("Weather App");
 
+      const form = document.getElementById("form");
+      expect(form).toBeTruthy();
+
       const input = document.getElementById("input");
       expect(input).toBeTruthy();
       expect(input.value).toBe("");
@@ -155,8 +158,9 @@ describe("Markup", () => {
 
       expect(main.contains(section)).toBeTruthy();
       expect(section.contains(title)).toBeTruthy();
-      expect(section.contains(input)).toBeTruthy();
-      expect(section.contains(btn)).toBeTruthy();
+      expect(section.contains(form)).toBeTruthy();
+      expect(form.contains(input)).toBeTruthy();
+      expect(form.contains(btn)).toBeTruthy();
 
       Markup.removeMarkup();
     });
