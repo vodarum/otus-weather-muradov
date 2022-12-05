@@ -1,0 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
+
+:root {
+  font-family: "Montserrat", Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main {
+  margin: 0 auto;
+  min-width: 320px;
+  max-width: 1200px;
+}
+
+.section {
+  padding: 20px;
+}
+
+.title {
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.input,
+.btn {
+  padding: 6px 8px;
+  border: 1px solid #a3a3a3;
+  border-radius: 2px;
+}
+
+.input {
+  margin-right: 2px;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.weather-info {
+  margin-top: 30px;
+  display: grid;
+  grid-template-areas: "weather-main" "weather-map" "weather-history";
+  gap: 1rem 1.5rem;
+}
+
+@media (min-width: 992px) {
+  .weather-info {
+    grid-template-areas: "weather-main weather-main" "weather-map weather-history";
+    grid-template-columns: repeat(2, max-content);
+  }
+}
+
+.weather-history {
+  grid-area: weather-history;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.weather-history__item {
+  width: max-content;
+}
+
+.weather-history__item:hover {
+  cursor: pointer;
+  color: #4567c7;
+}
+
+.weather-main {
+  grid-area: weather-main;
+  display: flex;
+  align-items: center;
+}
+
+.weather-map {
+  grid-area: weather-map;
+}
+
+.weather-map > img {
+  display: block;
+  max-width: 100%;
+}
