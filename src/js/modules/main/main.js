@@ -1,5 +1,5 @@
 import { WeatherInfoModel } from "../../models/weather-info";
-import LocationInfo from "../location-info/location-info";
+import API from "../api/api";
 import Markup from "../markup/markup";
 import WeatherInfo from "../weather-info/weather-info";
 import Util from "../../util/util";
@@ -38,9 +38,9 @@ class Main {
     // 3.1) получаем геоданные пользователя
     // 3.2) получаем информацию о погоде по местоположению пользователя
     // 3.3) обновляем главный экран
-    LocationInfo.getCurrentLocationInfo()
+    API.getCurrentLocationInfo()
       .then((currentLocationInfo) =>
-        WeatherInfo.getWeatherInfoByLocationCoord(
+        API.getWeatherInfoByLocationCoord(
           currentLocationInfo.latitude,
           currentLocationInfo.longitude
         )
@@ -73,11 +73,10 @@ class Main {
     const weatherHistory = JSON.parse(
       localStorage.getItem("weatherHistory") ?? "[]"
     );
-    const weatherInfoByLocationCoord =
-      await WeatherInfo.getWeatherInfoByLocationCoord(
-        weatherHistory[+id].coord.latitude,
-        weatherHistory[+id].coord.longitude
-      );
+    const weatherInfoByLocationCoord = await API.getWeatherInfoByLocationCoord(
+      weatherHistory[+id].coord.latitude,
+      weatherHistory[+id].coord.longitude
+    );
 
     await this.savePrevStateAndRefresh(weatherInfoByLocationCoord);
   }
@@ -101,8 +100,9 @@ class Main {
     const input = document.getElementById("input");
 
     try {
-      const weatherInfoByLocationName =
-        await WeatherInfo.getWeatherInfoByLocationName(input.value);
+      const weatherInfoByLocationName = await API.getWeatherInfoByLocationName(
+        input.value
+      );
 
       await this.savePrevStateAndRefresh(weatherInfoByLocationName);
     } catch (error) {

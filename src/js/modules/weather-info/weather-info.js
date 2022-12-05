@@ -3,67 +3,6 @@ import { WeatherInfoModel } from "../../models/weather-info";
 import Util from "../../util/util";
 
 class WeatherInfo {
-  WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather";
-
-  WEATHER_API_KEY = "1cf44d73b10a208539e8d4267c92ac9f";
-
-  /**
-   * Получить информацию о погоде по географическим координатам
-   * @param {*} latitude Широта
-   * @param {*} longitude Долгота
-   */
-  async getWeatherInfoByLocationCoord(latitude, longitude) {
-    let result = new WeatherInfoModel();
-
-    try {
-      const url = `${this.WEATHER_URL}?lat=${latitude}&lon=${longitude}&appid=${this.WEATHER_API_KEY}&units=metric&lang=ru`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error(`HTTP response status ${response.status}`);
-      }
-
-      const json = await response.json();
-
-      result = new WeatherInfoModel(json);
-    } catch (error) {
-      console.error(
-        `Error in WeatherInfo.getWeatherInfoByLocationCoord: ${error.message}`
-      );
-    }
-
-    return result;
-  }
-
-  /**
-   * Получить информацию о погоде по названию города
-   * @param {*} locationName Название города
-   */
-  async getWeatherInfoByLocationName(locationName) {
-    let result = new WeatherInfoModel();
-
-    if (locationName) {
-      try {
-        const url = `${this.WEATHER_URL}?q=${locationName}&appid=${this.WEATHER_API_KEY}&units=metric&lang=ru`;
-        const response = await fetch(url);
-
-        if (!response.ok) {
-          throw new Error(`HTTP response status ${response.status}`);
-        }
-
-        const json = await response.json();
-
-        result = new WeatherInfoModel(json);
-      } catch (error) {
-        console.error(
-          `Error in WeatherInfo.getWeatherInfoByLocationName: ${error.message}`
-        );
-      }
-    }
-
-    return result;
-  }
-
   /**
    * Сохранить информацию о погоде в Local Storage
    * @param {WeatherInfoModel} weatherInfo Информация о погоде

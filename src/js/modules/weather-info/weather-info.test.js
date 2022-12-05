@@ -4,174 +4,8 @@ import { WeatherInfoModel } from "../../models/weather-info";
 import Util from "../../util/util";
 import WeatherInfo from "./weather-info";
 
-describe("WeatherInfo", () => {
-  const spyError = jest.spyOn(console, "error").mockReturnValue();
-
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  // 1) Функция getWeatherInfoByLocationCoord
-  describe("getWeatherInfoByLocationCoord", () => {
-    // 1.1) Проверяем, является ли WeatherInfo.getWeatherInfoByLocationCoord экземпляром класса Function
-    test("is a function", () => {
-      expect(WeatherInfo.getWeatherInfoByLocationCoord).toBeInstanceOf(
-        Function
-      );
-    });
-
-    describe.each(testData.openWeatherResponse)("fetch", (x) => {
-      // 1.2) Проверяем случай, когда fetch возвращает ответ с успешным статусом
-      test("resolved with HTTP successful responses", async () => {
-        fetch.mockResponseOnce(JSON.stringify(x));
-
-        const result = await WeatherInfo.getWeatherInfoByLocationCoord(
-          x.coord.lat,
-          x.coord.lon
-        );
-
-        expect(fetch).toHaveBeenCalledTimes(1);
-        expect(fetch).toHaveBeenCalledWith(
-          `${WeatherInfo.WEATHER_URL}?lat=${x.coord.lat}&lon=${x.coord.lon}&appid=${WeatherInfo.WEATHER_API_KEY}&units=metric&lang=ru`
-        );
-
-        expect(spyError).toHaveBeenCalledTimes(0);
-
-        expect(result).toBeInstanceOf(WeatherInfoModel);
-      });
-
-      // 1.3) Проверяем случай, когда fetch возвращает ответ с неуспешным статусом
-      test("resolved with HTTP unsuccessful responses", async () => {
-        const unsuccessfulResponseStatus = 404; // For example, 404
-
-        fetch.mockResponseOnce(JSON.stringify(x), {
-          status: unsuccessfulResponseStatus,
-        });
-
-        const result = await WeatherInfo.getWeatherInfoByLocationCoord(
-          x.coord.lat,
-          x.coord.lon
-        );
-
-        expect(fetch).toHaveBeenCalledTimes(1);
-        expect(fetch).toHaveBeenCalledWith(
-          `${WeatherInfo.WEATHER_URL}?lat=${x.coord.lat}&lon=${x.coord.lon}&appid=${WeatherInfo.WEATHER_API_KEY}&units=metric&lang=ru`
-        );
-
-        expect(spyError).toHaveBeenCalledTimes(1);
-        expect(spyError).toHaveBeenCalledWith(
-          `Error in WeatherInfo.getWeatherInfoByLocationCoord: HTTP response status ${unsuccessfulResponseStatus}`
-        );
-
-        expect(result).toBeInstanceOf(WeatherInfoModel);
-      });
-
-      // 1.4) Проверяем случай, когда fetch завершается некоторой ошибкой
-      test("rejected", async () => {
-        const errorMessage = "Error in fetch";
-
-        fetch.mockRejectOnce(new Error(errorMessage));
-
-        const result = await WeatherInfo.getWeatherInfoByLocationCoord(
-          x.coord.lat,
-          x.coord.lon
-        );
-
-        expect(fetch).toHaveBeenCalledTimes(1);
-        expect(fetch).toHaveBeenCalledWith(
-          `${WeatherInfo.WEATHER_URL}?lat=${x.coord.lat}&lon=${x.coord.lon}&appid=${WeatherInfo.WEATHER_API_KEY}&units=metric&lang=ru`
-        );
-
-        expect(spyError).toHaveBeenCalledTimes(1);
-        expect(spyError).toHaveBeenCalledWith(
-          `Error in WeatherInfo.getWeatherInfoByLocationCoord: ${errorMessage}`
-        );
-
-        expect(result).toBeInstanceOf(WeatherInfoModel);
-      });
-    });
-  });
-
-  // 2) Функция getWeatherInfoByLocationName
-  describe("getWeatherInfoByLocationName", () => {
-    // 2.1) Проверяем, является ли WeatherInfo.getWeatherInfoByLocationName экземпляром класса Function
-    test("is a function", () => {
-      expect(WeatherInfo.getWeatherInfoByLocationName).toBeInstanceOf(Function);
-    });
-
-    // 2.2) Проверяем случай, когда в качестве аргумента locationName передана пустая строка
-    test("argument 'locationName' is empty", async () => {
-      const result = await WeatherInfo.getWeatherInfoByLocationName("");
-
-      expect(fetch).toHaveBeenCalledTimes(0);
-      expect(result).toBeInstanceOf(WeatherInfoModel);
-    });
-
-    // 2.3) Проверяем выполнение fetch
-    describe.each(testData.openWeatherResponse)("fetch", (x) => {
-      // 2.3.1) fetch возвращает ответ с успешным статусом
-      test("resolved with HTTP successful responses", async () => {
-        fetch.mockResponseOnce(JSON.stringify(x));
-
-        const result = await WeatherInfo.getWeatherInfoByLocationName(x.name);
-
-        expect(fetch).toHaveBeenCalledTimes(1);
-        expect(fetch).toHaveBeenCalledWith(
-          `${WeatherInfo.WEATHER_URL}?q=${x.name}&appid=${WeatherInfo.WEATHER_API_KEY}&units=metric&lang=ru`
-        );
-
-        expect(spyError).toHaveBeenCalledTimes(0);
-
-        expect(result).toBeInstanceOf(WeatherInfoModel);
-      });
-
-      // 2.3.2) fetch возвращает ответ с неуспешным статусом
-      test("resolved with HTTP unsuccessful responses", async () => {
-        const unsuccessfulResponseStatus = 404; // For example, 404
-
-        fetch.mockResponseOnce(JSON.stringify(x), {
-          status: unsuccessfulResponseStatus,
-        });
-
-        const result = await WeatherInfo.getWeatherInfoByLocationName(x.name);
-
-        expect(fetch).toHaveBeenCalledTimes(1);
-        expect(fetch).toHaveBeenCalledWith(
-          `${WeatherInfo.WEATHER_URL}?q=${x.name}&appid=${WeatherInfo.WEATHER_API_KEY}&units=metric&lang=ru`
-        );
-
-        expect(spyError).toHaveBeenCalledTimes(1);
-        expect(spyError).toHaveBeenCalledWith(
-          `Error in WeatherInfo.getWeatherInfoByLocationName: HTTP response status ${unsuccessfulResponseStatus}`
-        );
-
-        expect(result).toBeInstanceOf(WeatherInfoModel);
-      });
-
-      // 2.3.3) fetch завершается некоторой ошибкой
-      test("rejected", async () => {
-        const errorMessage = "Error in fetch";
-
-        fetch.mockRejectOnce(new Error(errorMessage));
-
-        const result = await WeatherInfo.getWeatherInfoByLocationName(x.name);
-
-        expect(fetch).toHaveBeenCalledTimes(1);
-        expect(fetch).toHaveBeenCalledWith(
-          `${WeatherInfo.WEATHER_URL}?q=${x.name}&appid=${WeatherInfo.WEATHER_API_KEY}&units=metric&lang=ru`
-        );
-
-        expect(spyError).toHaveBeenCalledTimes(1);
-        expect(spyError).toHaveBeenCalledWith(
-          `Error in WeatherInfo.getWeatherInfoByLocationName: ${errorMessage}`
-        );
-
-        expect(result).toBeInstanceOf(WeatherInfoModel);
-      });
-    });
-  });
-
-  // 3) Функция saveWeatherInfo
+describe.only("WeatherInfo", () => {
+  // 1) Функция saveWeatherInfo
   describe("saveWeatherInfo", () => {
     /**
      * Установить localStorage для тестов
@@ -195,14 +29,14 @@ describe("WeatherInfo", () => {
       localStorage.removeItem("weatherHistory");
     });
 
-    // 3.1) Проверяем, является ли WeatherInfo.saveWeatherInfo экземпляром класса Function
+    // 1.1) Проверяем, является ли WeatherInfo.saveWeatherInfo экземпляром класса Function
     test("is a function", () => {
       expect(WeatherInfo.saveWeatherInfo).toBeInstanceOf(Function);
     });
 
-    // 3.2) Проверяем корректность сохранения записей
+    // 1.2) Проверяем корректность сохранения записей
     describe("correct saving", () => {
-      // 3.2.1) Если в localStorage содержит Историю
+      // 1.2.1) Если в localStorage содержит Историю
       describe("if localStorage is full", () => {
         let lastIndex;
         let firstItemInWeatherHistory;
@@ -219,7 +53,7 @@ describe("WeatherInfo", () => {
           setLocalStorageForWeatherHistory(testData.weatherInfoArray); // testData.weatherHistory.length = 10
         });
 
-        // 3.2.1 - 1) Проверяем соблюдение требования о сохранении в Истории не более 10 записей
+        // 1.2.1 - 1) Проверяем соблюдение требования о сохранении в Истории не более 10 записей
         test("no more than 10 items saved", () => {
           // Выполним несколько раз сохранение (добавление) информации о погоде в Историю
           WeatherInfo.saveWeatherInfo(weatherInfoForAdding); // Сохраняем новый элемент
@@ -235,9 +69,9 @@ describe("WeatherInfo", () => {
           );
         });
 
-        // 3.2.1 - 2) Проверяем соблюдение правильной последовательности записей при сохранении Истории
+        // 1.2.1 - 2) Проверяем соблюдение правильной последовательности записей при сохранении Истории
         describe("correct order", () => {
-          // 3.2.1 - 2.1) Если добавляемого элемента еще не было в Истории
+          // 1.2.1 - 2.1) Если добавляемого элемента еще не было в Истории
           test("if a new weatherInfo is added", () => {
             WeatherInfo.saveWeatherInfo(weatherInfoForAdding);
 
@@ -257,7 +91,7 @@ describe("WeatherInfo", () => {
             ).toBeUndefined(); // Проверяем, что бывший последним элемент отсутствует в Истории
           });
 
-          // 3.2.1 - 2.2) Если в качестве добавляемого элемента используется элемент, бывший предпоследним в Истории
+          // 1.2.1 - 2.2) Если в качестве добавляемого элемента используется элемент, бывший предпоследним в Истории
           test("if the prelast element of weatherHistory was used to add", () => {
             WeatherInfo.saveWeatherInfo(preLastItemInWeatherHistory);
 
@@ -270,7 +104,7 @@ describe("WeatherInfo", () => {
             expect(weatherHistory[lastIndex]).toEqual(lastItemInWeatherHistory); // Проверяем, что последний элемент остался на своем месте в Истории
           });
 
-          // 3.2.1 - 2.3) Если в качестве добавляемого элемента используется элемент, бывший последним в Истории
+          // 1.2.1 - 2.3) Если в качестве добавляемого элемента используется элемент, бывший последним в Истории
           test("if the last element of weatherHistory was used to add", () => {
             WeatherInfo.saveWeatherInfo(lastItemInWeatherHistory);
 
@@ -286,7 +120,7 @@ describe("WeatherInfo", () => {
           });
         });
 
-        // 3.2.1 - 3) Проверяем соблюдение требования о недопустимости дублирования записей в Истории
+        // 1.2.1 - 3) Проверяем соблюдение требования о недопустимости дублирования записей в Истории
         test("weatherHistory does not contain duplicate elements", () => {
           WeatherInfo.saveWeatherInfo(lastItemInWeatherHistory); // Сохраняем клон последнего элемента
           WeatherInfo.saveWeatherInfo(preLastItemInWeatherHistory); // Сохраняем клон предпоследнего элемента
@@ -309,7 +143,7 @@ describe("WeatherInfo", () => {
         });
       });
 
-      // 3.2.2) Если в localStorage пустой
+      // 1.2.2) Если в localStorage пустой
       describe("if localStorage is empty", () => {
         test("", () => {
           setLocalStorageForWeatherHistory();
@@ -327,14 +161,14 @@ describe("WeatherInfo", () => {
     });
   });
 
-  // 4) Функция validateCoord
+  // 2) Функция validateCoord
   describe("validateCoord", () => {
-    // 4.1) Проверяем, является ли WeatherInfo.validateCoord экземпляром класса Function
+    // 2.1) Проверяем, является ли WeatherInfo.validateCoord экземпляром класса Function
     test("is a function", () => {
       expect(WeatherInfo.validateCoord).toBeInstanceOf(Function);
     });
 
-    // 4.2) Проверяем корректность выполнения вылидации координат
+    // 2.2) Проверяем корректность выполнения валидации координат
     describe.each([
       {
         coord: new CoordModel(55.7504, 37.6175),
@@ -379,14 +213,14 @@ describe("WeatherInfo", () => {
     });
   });
 
-  // 5) Функция validateWeatherInfo
+  // 3) Функция validateWeatherInfo
   describe("validateWeatherInfo", () => {
-    // 5.1) Проверяем, является ли WeatherInfo.validateWeatherInfo экземпляром класса Function
+    // 3.1) Проверяем, является ли WeatherInfo.validateWeatherInfo экземпляром класса Function
     test("is a function", () => {
       expect(WeatherInfo.validateWeatherInfo).toBeInstanceOf(Function);
     });
 
-    // 5.2) Проверяем корректность выполнения вылидации информации о погоде
+    // 3.2) Проверяем корректность выполнения валидации информации о погоде
     describe.each([
       {
         translationToWeatherInfoModel: true,

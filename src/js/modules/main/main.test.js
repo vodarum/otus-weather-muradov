@@ -1,7 +1,7 @@
 import * as testData from "../../__test__/test-data.json";
 import { LocationInfoModel } from "../../models/location-info";
 import { WeatherInfoModel } from "../../models/weather-info";
-import LocationInfo from "../location-info/location-info";
+import API from "../api/api";
 import Main from "./main";
 import Markup from "../markup/markup";
 import WeatherInfo from "../weather-info/weather-info";
@@ -26,10 +26,10 @@ describe("Main", () => {
       const spyCreateInitialMarkup = jest.spyOn(Markup, "createInitialMarkup");
 
       const spyGetCurrentLocationInfo = jest
-        .spyOn(LocationInfo, "getCurrentLocationInfo")
+        .spyOn(API, "getCurrentLocationInfo")
         .mockResolvedValue(new LocationInfoModel(testData.geoInfo));
       const spyGetWeatherInfoByLocationCoord = jest
-        .spyOn(WeatherInfo, "getWeatherInfoByLocationCoord")
+        .spyOn(API, "getWeatherInfoByLocationCoord")
         .mockResolvedValue(new WeatherInfoModel());
       const spyRefresh = jest.spyOn(Main, "refresh").mockReturnValueOnce();
 
@@ -118,7 +118,7 @@ describe("Main", () => {
           // 3.2) Проверяем выполнение функции
           test(`for data-wh-item-id '${whItemId}'`, async () => {
             const spyGetWeatherInfoByLocationCoord = jest
-              .spyOn(WeatherInfo, "getWeatherInfoByLocationCoord")
+              .spyOn(API, "getWeatherInfoByLocationCoord")
               .mockResolvedValue(
                 Object.assign(
                   new WeatherInfoModel(),
@@ -224,7 +224,7 @@ describe("Main", () => {
         input = document.getElementById("input");
 
         spyGetWeatherInfoByLocationName = jest.spyOn(
-          WeatherInfo,
+          API,
           "getWeatherInfoByLocationName"
         );
         spySavePrevStateAndRefresh = jest.spyOn(
@@ -258,12 +258,11 @@ describe("Main", () => {
         expect(input.value).toBe("");
       });
 
-      // 5.3) Проверяем выполнение функции с исключением в WeatherInfo.getWeatherInfoByLocationName
+      // 5.3) Проверяем выполнение функции с исключением в API.getWeatherInfoByLocationName
       test("with an exception in 'getWeatherInfoByLocationName'", async () => {
         input.value = value;
 
-        const errorMessage =
-          "Error in WeatherInfo.getWeatherInfoByLocationName";
+        const errorMessage = "Error in API.getWeatherInfoByLocationName";
 
         spyGetWeatherInfoByLocationName.mockRejectedValueOnce(errorMessage);
         spySavePrevStateAndRefresh.mockResolvedValueOnce();
