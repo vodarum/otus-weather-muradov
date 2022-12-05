@@ -46,12 +46,27 @@
 
 .weather-info {
   margin-top: 30px;
+  display: grid;
+  grid-template-areas: "weather-main" "weather-map" "weather-history";
+  gap: 1rem 1.5rem;
+}
+
+@media (min-width: 992px) {
+  .weather-info {
+    grid-template-areas: "weather-main weather-main" "weather-map weather-history";
+    grid-template-columns: repeat(2, max-content);
+  }
 }
 
 .weather-history {
+  grid-area: weather-history;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.weather-history__item {
+  width: max-content;
 }
 
 .weather-history__item:hover {
@@ -60,16 +75,16 @@
 }
 
 .weather-main {
+  grid-area: weather-main;
   display: flex;
   align-items: center;
 }
 
 .weather-map {
-  padding: 30px 0;
+  grid-area: weather-map;
 }
 
 .weather-map > img {
   display: block;
-  margin: 0 auto;
   max-width: 100%;
 }

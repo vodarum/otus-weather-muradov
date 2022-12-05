@@ -45,19 +45,23 @@ class Main {
           currentLocationInfo.longitude
         )
       )
-      .then((weather) => this.refresh(weather))
+      .then((weatherInfo) => this.saveStateAndRefresh(weatherInfo))
       .catch((error) => console.error(error));
   }
 
   /**
-   * Сохранить предыдущее состояние
+   * Сохранить состояние и обновить главный экран
    * @param {WeatherInfoModel} weatherInfo
    */
-  async savePrevStateAndRefresh(weatherInfo) {
+  async saveStateAndRefresh(weatherInfo) {
     if (WeatherInfo.validateWeatherInfo(weatherInfo)) {
-      WeatherInfo.saveWeatherInfo(this.mainWeatherInfo);
+      WeatherInfo.saveWeatherInfo(weatherInfo);
 
-      this.refresh(weatherInfo);
+      this.mainWeatherInfo = weatherInfo;
+
+      Markup.addWeatherMainOnScreen(this.mainWeatherInfo);
+      Markup.addStaticMapOnScreen(this.mainWeatherInfo.coord);
+      Markup.addWeatherHistoryOnScreen();
     }
   }
 
@@ -78,19 +82,7 @@ class Main {
       weatherHistory[+id].coord.longitude
     );
 
-    await this.savePrevStateAndRefresh(weatherInfoByLocationCoord);
-  }
-
-  /**
-   * Обновить главный экран
-   * @param {WeatherInfoModel} weatherInfo Информация о погоде
-   */
-  refresh(weatherInfo) {
-    this.mainWeatherInfo = weatherInfo;
-
-    Markup.addWeatherMainOnScreen(this.mainWeatherInfo);
-    Markup.addStaticMapOnScreen(this.mainWeatherInfo.coord);
-    Markup.addWeatherHistoryOnScreen();
+    await this.saveStateAndRefresh(weatherInfoByLocationCoord);
   }
 
   /**
@@ -104,7 +96,7 @@ class Main {
         input.value
       );
 
-      await this.savePrevStateAndRefresh(weatherInfoByLocationName);
+      await this.saveStateAndRefresh(weatherInfoByLocationName);
     } catch (error) {
       console.error(`Error in Main.search: ${error}`);
     } finally {

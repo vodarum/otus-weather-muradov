@@ -24,14 +24,15 @@ describe("Main", () => {
     // 1.2) Проверяем выполнение функции
     test("is executed", async () => {
       const spyCreateInitialMarkup = jest.spyOn(Markup, "createInitialMarkup");
-
       const spyGetCurrentLocationInfo = jest
         .spyOn(API, "getCurrentLocationInfo")
         .mockResolvedValue(new LocationInfoModel(testData.geoInfo));
       const spyGetWeatherInfoByLocationCoord = jest
         .spyOn(API, "getWeatherInfoByLocationCoord")
         .mockResolvedValue(new WeatherInfoModel());
-      const spyRefresh = jest.spyOn(Main, "refresh").mockReturnValueOnce();
+      const spySaveStateAndRefresh = jest
+        .spyOn(Main, "saveStateAndRefresh")
+        .mockReturnValueOnce();
 
       Main.init();
 
@@ -45,46 +46,71 @@ describe("Main", () => {
       );
 
       await spyGetWeatherInfoByLocationCoord();
-      expect(spyRefresh).toHaveBeenCalledTimes(1);
+      expect(spySaveStateAndRefresh).toHaveBeenCalledTimes(1);
     });
   });
 
-  // 2) Функция savePrevStateAndRefresh
-  describe("savePrevStateAndRefresh", () => {
-    // 2.1) Проверяем, является ли Main.savePrevStateAndRefresh экземпляром класса Function
+  // 2) Функция saveStateAndRefresh
+  describe("saveStateAndRefresh", () => {
+    // 2.1) Проверяем, является ли Main.saveStateAndRefresh экземпляром класса Function
     test("is a function", () => {
-      expect(Main.savePrevStateAndRefresh).toBeInstanceOf(Function);
+      expect(Main.saveStateAndRefresh).toBeInstanceOf(Function);
     });
 
     describe.each([true, false])("is executed", (resultOfValidation) => {
       // 2.2) Проверяем выполнение функции
       test(`if result of validation is '${resultOfValidation}'`, () => {
+        Main.mainWeatherInfo = new WeatherInfoModel();
+
         const newWeatherInfo = Object.assign(
           new WeatherInfoModel(),
-          testData.weatherInfoArray[0]
+          testData.weatherInfoArray[0] // For example, first item in 'weatherInfoArray' of testData
         );
-
         const spyValidateWeatherInfo = jest
           .spyOn(WeatherInfo, "validateWeatherInfo")
           .mockReturnValueOnce(resultOfValidation);
-
         const spySaveWeatherInfo = jest
           .spyOn(WeatherInfo, "saveWeatherInfo")
           .mockReturnValueOnce();
+        const spyAddWeatherInfoOnScreen = jest
+          .spyOn(Markup, "addWeatherMainOnScreen")
+          .mockReturnValueOnce();
+        const spyAddStaticMapOnScreen = jest
+          .spyOn(Markup, "addStaticMapOnScreen")
+          .mockReturnValueOnce();
+        const spyAddWeatherInfoHistoryOnScreen = jest
+          .spyOn(Markup, "addWeatherHistoryOnScreen")
+          .mockReturnValueOnce();
 
-        const spyRefresh = jest.spyOn(Main, "refresh").mockReturnValueOnce();
+        expect(Main.mainWeatherInfo).not.toEqual(newWeatherInfo);
 
-        Main.savePrevStateAndRefresh(newWeatherInfo);
+        Main.saveStateAndRefresh(newWeatherInfo);
 
         expect(spyValidateWeatherInfo).toHaveBeenCalledTimes(1);
         expect(spyValidateWeatherInfo).toHaveBeenCalledWith(newWeatherInfo);
 
         expect(spySaveWeatherInfo).toHaveBeenCalledTimes(+resultOfValidation);
-        expect(spyRefresh).toHaveBeenCalledTimes(+resultOfValidation);
+        expect(spyAddWeatherInfoOnScreen).toHaveBeenCalledTimes(
+          +resultOfValidation
+        );
+        expect(spyAddStaticMapOnScreen).toHaveBeenCalledTimes(
+          +resultOfValidation
+        );
+        expect(spyAddWeatherInfoHistoryOnScreen).toHaveBeenCalledTimes(
+          +resultOfValidation
+        );
 
         if (resultOfValidation) {
           expect(spySaveWeatherInfo).toHaveBeenCalledWith(Main.mainWeatherInfo);
-          expect(spyRefresh).toHaveBeenCalledWith(newWeatherInfo);
+
+          expect(Main.mainWeatherInfo).toEqual(newWeatherInfo);
+
+          expect(spyAddWeatherInfoOnScreen).toHaveBeenCalledWith(
+            newWeatherInfo
+          );
+          expect(spyAddStaticMapOnScreen).toHaveBeenCalledWith(
+            newWeatherInfo.coord
+          );
         }
       });
     });
@@ -127,7 +153,7 @@ describe("Main", () => {
               );
             const spySavePrevStateAndRefresh = jest.spyOn(
               Main,
-              "savePrevStateAndRefresh"
+              "saveStateAndRefresh"
             );
 
             if (Util.isDefined(whItemId)) {
@@ -155,51 +181,7 @@ describe("Main", () => {
     });
   });
 
-  // 4) Функция refresh
-  describe("refresh", () => {
-    // 4.1) Проверяем, является ли Main.refresh экземпляром класса Function
-    test("is a function", () => {
-      expect(Main.refresh).toBeInstanceOf(Function);
-    });
-
-    // 4.2) Проверяем выполнение функции
-    test("is executed", () => {
-      const newWeatherInfo = Object.assign(
-        new WeatherInfoModel(),
-        testData.weatherInfoArray[0] // For example, first item in 'weatherInfoArray' of testData
-      );
-
-      expect(Main.mainWeatherInfo).not.toEqual(newWeatherInfo);
-
-      const spyAddWeatherInfoOnScreen = jest
-        .spyOn(Markup, "addWeatherMainOnScreen")
-        .mockReturnValueOnce();
-
-      const spyAddStaticMapOnScreen = jest
-        .spyOn(Markup, "addStaticMapOnScreen")
-        .mockReturnValueOnce();
-
-      const spyAddWeatherInfoHistoryOnScreen = jest
-        .spyOn(Markup, "addWeatherHistoryOnScreen")
-        .mockReturnValueOnce();
-
-      Main.refresh(newWeatherInfo);
-
-      expect(Main.mainWeatherInfo).toEqual(newWeatherInfo);
-
-      expect(spyAddWeatherInfoOnScreen).toHaveBeenCalledTimes(1);
-      expect(spyAddWeatherInfoOnScreen).toHaveBeenCalledWith(newWeatherInfo);
-
-      expect(spyAddStaticMapOnScreen).toHaveBeenCalledTimes(1);
-      expect(spyAddStaticMapOnScreen).toHaveBeenCalledWith(
-        newWeatherInfo.coord
-      );
-
-      expect(spyAddWeatherInfoHistoryOnScreen).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  // 5) Функция search
+  // 4) Функция search
   describe("search", () => {
     beforeAll(() => {
       Markup.createInitialMarkup();
@@ -209,17 +191,17 @@ describe("Main", () => {
       Markup.removeMarkup();
     });
 
-    // 5.1) Проверяем, является ли Main.search экземпляром класса Function
+    // 4.1) Проверяем, является ли Main.search экземпляром класса Function
     test("is a function", () => {
       expect(Main.search).toBeInstanceOf(Function);
     });
 
-    describe.each(["", "Москва", "_Москва"])("is executed", (value) => {
-      let input;
-      let spyGetWeatherInfoByLocationName;
-      let spySavePrevStateAndRefresh;
-      let spyError;
+    let input;
+    let spyGetWeatherInfoByLocationName;
+    let spySaveStateAndRefresh;
+    let spyError;
 
+    describe.each(["", "Москва", "_Москва"])("is executed", (value) => {
       beforeEach(() => {
         input = document.getElementById("input");
 
@@ -227,29 +209,26 @@ describe("Main", () => {
           API,
           "getWeatherInfoByLocationName"
         );
-        spySavePrevStateAndRefresh = jest.spyOn(
-          Main,
-          "savePrevStateAndRefresh"
-        );
+        spySaveStateAndRefresh = jest.spyOn(Main, "saveStateAndRefresh");
         spyError = jest.spyOn(console, "error").mockReturnValue();
       });
 
-      // 5.2) Проверяем безошибочное выполнение функции
+      // 4.2) Проверяем безошибочное выполнение функции
       test("without an exception", async () => {
         input.value = value;
 
         spyGetWeatherInfoByLocationName.mockResolvedValueOnce(
           new WeatherInfoModel()
         );
-        spySavePrevStateAndRefresh.mockResolvedValueOnce();
+        spySaveStateAndRefresh.mockResolvedValueOnce();
 
         await Main.search();
 
         expect(spyGetWeatherInfoByLocationName).toHaveBeenCalledTimes(1);
         expect(spyGetWeatherInfoByLocationName).toHaveBeenCalledWith(value);
 
-        expect(spySavePrevStateAndRefresh).toHaveBeenCalledTimes(1);
-        expect(spySavePrevStateAndRefresh).toHaveBeenCalledWith(
+        expect(spySaveStateAndRefresh).toHaveBeenCalledTimes(1);
+        expect(spySaveStateAndRefresh).toHaveBeenCalledWith(
           await spyGetWeatherInfoByLocationName()
         );
 
@@ -258,21 +237,21 @@ describe("Main", () => {
         expect(input.value).toBe("");
       });
 
-      // 5.3) Проверяем выполнение функции с исключением в API.getWeatherInfoByLocationName
+      // 4.3) Проверяем выполнение функции с исключением в API.getWeatherInfoByLocationName
       test("with an exception in 'getWeatherInfoByLocationName'", async () => {
         input.value = value;
 
         const errorMessage = "Error in API.getWeatherInfoByLocationName";
 
         spyGetWeatherInfoByLocationName.mockRejectedValueOnce(errorMessage);
-        spySavePrevStateAndRefresh.mockResolvedValueOnce();
+        spySaveStateAndRefresh.mockResolvedValueOnce();
 
         await Main.search();
 
         expect(spyGetWeatherInfoByLocationName).toHaveBeenCalledTimes(1);
         expect(spyGetWeatherInfoByLocationName).toHaveBeenCalledWith(value);
 
-        expect(spySavePrevStateAndRefresh).toHaveBeenCalledTimes(0);
+        expect(spySaveStateAndRefresh).toHaveBeenCalledTimes(0);
 
         expect(spyError).toHaveBeenCalledTimes(1);
         expect(spyError).toHaveBeenCalledWith(
@@ -282,24 +261,24 @@ describe("Main", () => {
         expect(input.value).toBe("");
       });
 
-      // 5.4) Проверяем выполнение функции с исключением в Main.savePrevStateAndRefresh
-      test("with an exception in 'savePrevStateAndRefresh'", async () => {
+      // 4.4) Проверяем выполнение функции с исключением в Main.saveStateAndRefresh
+      test("with an exception in 'saveStateAndRefresh'", async () => {
         input.value = value;
 
-        const errorMessage = "Error in Main.savePrevStateAndRefresh";
+        const errorMessage = "Error in Main.saveStateAndRefresh";
 
         spyGetWeatherInfoByLocationName.mockResolvedValueOnce(
           new WeatherInfoModel()
         );
-        spySavePrevStateAndRefresh.mockRejectedValueOnce(errorMessage);
+        spySaveStateAndRefresh.mockRejectedValueOnce(errorMessage);
 
         await Main.search();
 
         expect(spyGetWeatherInfoByLocationName).toHaveBeenCalledTimes(1);
         expect(spyGetWeatherInfoByLocationName).toHaveBeenCalledWith(value);
 
-        expect(spySavePrevStateAndRefresh).toHaveBeenCalledTimes(1);
-        expect(spySavePrevStateAndRefresh).toHaveBeenCalledWith(
+        expect(spySaveStateAndRefresh).toHaveBeenCalledTimes(1);
+        expect(spySaveStateAndRefresh).toHaveBeenCalledWith(
           await spyGetWeatherInfoByLocationName()
         );
 
