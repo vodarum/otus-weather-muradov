@@ -1,4 +1,4 @@
 import "../css/style.css";
-import Main from "./modules/main/main";
+import AppComponent from "./components/app";
 
-Main.init();
+new AppComponent(document.querySelector("body")); // eslint-disable-line no-new

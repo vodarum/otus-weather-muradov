@@ -1,7 +1,7 @@
 class Markup {
   /**
    * Добавить изображение карты по координатам
-   * @param {Coord} coord Координаты
+   * @param {CoordModel} coord Координаты
    */
   addStaticMapOnScreen(coord) {
     const weatherInfoBlock = document.getElementById("weather-map");
