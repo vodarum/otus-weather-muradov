@@ -1,12 +1,9 @@
 class TemplateEngine {
   render(source: string, data: { [key: string]: any }): string {
-    // source = source
-    //   .split("\n")
-    //   .reduce((accumulator, line) => accumulator + line.trim(), "");
     source = this.replaceLoop(source, data);
     source = this.replaceCondition(source, data);
     source = this.replaceVariable(source, data);
-    source = source.replace(/\s+(?=[.,?!:;])/, ""); // ???
+    source = source.replace(/\s+(?=[.,?!:;])/, "");
 
     return source;
   }
@@ -22,7 +19,7 @@ class TemplateEngine {
           .split(".")
           .reduce(
             (accumulator: { [key: string]: any }, propertyName: string) =>
-              accumulator[propertyName] || accumulator,
+              accumulator[propertyName] ?? accumulator,
             data
           );
       }
@@ -36,7 +33,6 @@ class TemplateEngine {
     data: { [key: string]: any }
   ): string {
     return source.replace(
-      // {{if (.+?)}}(.+?){{endif}}
       /{{if (\w+)}}(.*?){{endif}}/gms,
       (match: string, condition: string, action: string) => {
         if (
