@@ -18,7 +18,9 @@ module.exports = {
         exceptMethods: [
           "createMarkupElement",
           "isDefined",
+          "onMount",
           "removeMarkup",
+          "render",
           "saveWeatherInfo",
           "validateCoord",
         ],
@@ -49,6 +51,7 @@ module.exports = {
     "no-console": "off",
     "no-param-reassign": "off",
     "no-plusplus": "off",
+    "no-promise-executor-return": "off",
     "no-underscore-dangle": 0,
     "prefer-destructuring": ["error", { object: true, array: false }],
     "@typescript-eslint/no-explicit-any": "off",
