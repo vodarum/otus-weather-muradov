@@ -1,5 +1,5 @@
 const Util = {
-  isDefined(value) {
+  isDefined<T>(value: T) {
     return value !== null && typeof value !== "undefined";
   },
 };
