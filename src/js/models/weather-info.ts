@@ -1,15 +1,16 @@
 import { CoordModel } from "./coord";
+import { WeatherInfoType } from "../types/types";
 
 export class WeatherInfoModel {
-  city = null;
+  city: string = null;
 
-  temp = null;
+  temp: number = null;
 
-  icon = null;
+  icon: string = null;
 
-  coord = new CoordModel();
+  coord: CoordModel = new CoordModel();
 
-  constructor(weatherInfo) {
+  constructor(weatherInfo?: WeatherInfoType) {
     this.city = weatherInfo?.name ?? null;
     this.temp = weatherInfo?.main.temp ?? null;
     this.icon = weatherInfo?.weather[0].icon ?? null;
