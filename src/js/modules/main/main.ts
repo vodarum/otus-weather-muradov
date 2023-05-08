@@ -5,6 +5,8 @@ import WeatherInfo from "../weather-info/weather-info";
 import Util from "../../util/util";
 
 class Main {
+  mainWeatherInfo: WeatherInfoModel;
+
   constructor() {
     this.mainWeatherInfo = new WeatherInfoModel();
   }
@@ -27,10 +29,14 @@ class Main {
     // 2.2) на блок "История"
     const weatherHistoryBlock = document.getElementById("weather-history");
     weatherHistoryBlock.addEventListener("click", (event) => {
-      const weatherHistoryItem = event.target.closest(".weather-history__item");
+      const weatherHistoryItem = (event.target as HTMLElement).closest(
+        ".weather-history__item"
+      );
 
       if (weatherHistoryItem) {
-        this.selectItemFromWeatherHistory(weatherHistoryItem.dataset.whItemId);
+        this.selectItemFromWeatherHistory(
+          (weatherHistoryItem as HTMLElement).dataset.whItemId
+        );
       }
     });
 
@@ -53,7 +59,7 @@ class Main {
    * Сохранить состояние и обновить главный экран
    * @param {WeatherInfoModel} weatherInfo
    */
-  async saveStateAndRefresh(weatherInfo) {
+  async saveStateAndRefresh(weatherInfo: WeatherInfoModel) {
     if (WeatherInfo.validateWeatherInfo(weatherInfo)) {
       WeatherInfo.saveWeatherInfo(weatherInfo);
 
@@ -69,7 +75,7 @@ class Main {
    * Выбрать элемент Истории
    * @param {string} id ID записи Истории
    */
-  async selectItemFromWeatherHistory(id) {
+  async selectItemFromWeatherHistory(id: string) {
     if (!Util.isDefined(id)) {
       return;
     }
@@ -89,7 +95,7 @@ class Main {
    * Найти информацию о погоде в выбранном населенном пункте
    */
   async search() {
-    const input = document.getElementById("input");
+    const input = document.getElementById("input") as HTMLInputElement;
 
     try {
       const weatherInfoByLocationName = await API.getWeatherInfoByLocationName(

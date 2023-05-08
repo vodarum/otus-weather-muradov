@@ -7,12 +7,12 @@ class WeatherInfo {
    * Сохранить информацию о погоде в Local Storage
    * @param {WeatherInfoModel} weatherInfo Информация о погоде
    */
-  saveWeatherInfo(weatherInfo) {
+  saveWeatherInfo(weatherInfo: WeatherInfoModel) {
     const weatherHistory = JSON.parse(
       localStorage.getItem("weatherHistory") ?? "[]"
     );
     const filteredWeatherHistory = weatherHistory.filter(
-      (wI) => wI.city !== weatherInfo.city
+      (wI: WeatherInfoModel) => wI.city !== weatherInfo.city
     );
 
     filteredWeatherHistory.unshift(weatherInfo);
@@ -27,23 +27,21 @@ class WeatherInfo {
    * Проверить корректность координат
    * @param {CoordModel} coord Координаты
    */
-  validateCoord(coord) {
+  validateCoord(coord: CoordModel) {
     /**
      * Проверить корректность широты
      * @param {number} latitude Широта
      */
-    function _validateLatitude(latitude) {
-      return Util.isDefined(latitude) && +latitude <= 90 && +latitude >= -90;
+    function _validateLatitude(latitude: number) {
+      return Util.isDefined(latitude) && latitude <= 90 && latitude >= -90;
     }
 
     /**
      * Проверить корректность долготы
      * @param {number} longitude Долгота
      */
-    function _validateLongitude(longitude) {
-      return (
-        Util.isDefined(longitude) && +longitude <= 180 && +longitude >= -180
-      );
+    function _validateLongitude(longitude: number) {
+      return Util.isDefined(longitude) && longitude <= 180 && longitude >= -180;
     }
 
     return (
@@ -57,7 +55,7 @@ class WeatherInfo {
    * Проверить корректность информации о погоде
    * @param {WeatherInfoModel} weatherInfo Информация о погоде
    */
-  validateWeatherInfo(weatherInfo) {
+  validateWeatherInfo(weatherInfo: WeatherInfoModel) {
     return (
       weatherInfo instanceof WeatherInfoModel &&
       Util.isDefined(weatherInfo.city) &&

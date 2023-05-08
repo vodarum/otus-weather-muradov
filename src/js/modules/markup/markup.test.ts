@@ -34,7 +34,7 @@ describe("Markup", () => {
     });
 
     describe("adds weather info", () => {
-      let weatherHistory;
+      let weatherHistory: HTMLElement;
 
       beforeEach(() => {
         Markup.createInitialMarkup();
@@ -65,7 +65,9 @@ describe("Markup", () => {
           expect(weatherHistoryItem.classList).toContain(
             "weather-history__item"
           );
-          expect(weatherHistoryItem.dataset.whItemId).toBe(`${index}`);
+          expect((weatherHistoryItem as HTMLElement).dataset.whItemId).toBe(
+            `${index}`
+          );
         });
       });
 
@@ -145,7 +147,7 @@ describe("Markup", () => {
       const form = document.getElementById("form");
       expect(form).toBeTruthy();
 
-      const input = document.getElementById("input");
+      const input = document.getElementById("input") as HTMLInputElement;
       expect(input).toBeTruthy();
       expect(input.value).toBe("");
 

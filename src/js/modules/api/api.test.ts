@@ -1,3 +1,4 @@
+import fetch from "jest-fetch-mock";
 import * as testData from "../../__test__/test-data.json";
 import { LocationInfoModel } from "../../models/location-info";
 import { WeatherInfoModel } from "../../models/weather-info";

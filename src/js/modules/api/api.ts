@@ -1,5 +1,6 @@
 import { LocationInfoModel } from "../../models/location-info";
 import { WeatherInfoModel } from "../../models/weather-info";
+import { WeatherInfoType } from "../../types/types";
 
 class API {
   LOCATION_URL = "https://get.geojs.io/v1/ip/geo.json";
@@ -11,7 +12,7 @@ class API {
   /**
    * Получить геоданные пользователя
    */
-  async getCurrentLocationInfo() {
+  async getCurrentLocationInfo(): Promise<LocationInfoModel> {
     let result = new LocationInfoModel();
 
     try {
@@ -25,7 +26,11 @@ class API {
 
       result = new LocationInfoModel(json);
     } catch (error) {
-      console.error(`Error in API.getCurrentLocationInfo: ${error.message}`);
+      console.error(
+        `Error in API.getCurrentLocationInfo: ${
+          error instanceof Error ? error.message : error
+        }`
+      );
     }
 
     return result;
@@ -36,7 +41,10 @@ class API {
    * @param {*} latitude Широта
    * @param {*} longitude Долгота
    */
-  async getWeatherInfoByLocationCoord(latitude, longitude) {
+  async getWeatherInfoByLocationCoord(
+    latitude: number,
+    longitude: number
+  ): Promise<WeatherInfoModel> {
     let result = new WeatherInfoModel();
 
     try {
@@ -47,12 +55,14 @@ class API {
         throw new Error(`HTTP response status ${response.status}`);
       }
 
-      const json = await response.json();
+      const json = (await response.json()) as WeatherInfoType;
 
       result = new WeatherInfoModel(json);
     } catch (error) {
       console.error(
-        `Error in API.getWeatherInfoByLocationCoord: ${error.message}`
+        `Error in API.getWeatherInfoByLocationCoord: ${
+          error instanceof Error ? error.message : error
+        }`
       );
     }
 
@@ -63,7 +73,9 @@ class API {
    * Получить информацию о погоде по названию города
    * @param {*} locationName Название города
    */
-  async getWeatherInfoByLocationName(locationName) {
+  async getWeatherInfoByLocationName(
+    locationName: string
+  ): Promise<WeatherInfoModel> {
     let result = new WeatherInfoModel();
 
     if (locationName) {
@@ -75,12 +87,14 @@ class API {
           throw new Error(`HTTP response status ${response.status}`);
         }
 
-        const json = await response.json();
+        const json = (await response.json()) as WeatherInfoType;
 
         result = new WeatherInfoModel(json);
       } catch (error) {
         console.error(
-          `Error in API.getWeatherInfoByLocationName: ${error.message}`
+          `Error in API.getWeatherInfoByLocationName: ${
+            error instanceof Error ? error.message : error
+          }`
         );
       }
     }

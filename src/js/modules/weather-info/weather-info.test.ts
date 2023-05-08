@@ -9,9 +9,9 @@ describe.only("WeatherInfo", () => {
   describe("saveWeatherInfo", () => {
     /**
      * Установить localStorage для тестов
-     * @param {*} value Значение для weatherHistory
+     * @param {Array<WeatherInfoModel>} value Значение для weatherHistory
      */
-    function setLocalStorageForWeatherHistory(value) {
+    function setLocalStorageForWeatherHistory(value?: Array<WeatherInfoModel>) {
       if (Util.isDefined(value)) {
         localStorage.setItem("weatherHistory", JSON.stringify(value));
       }
@@ -38,10 +38,10 @@ describe.only("WeatherInfo", () => {
     describe("correct saving", () => {
       // 1.2.1) Если в localStorage содержит Историю
       describe("if localStorage is full", () => {
-        let lastIndex;
-        let firstItemInWeatherHistory;
-        let preLastItemInWeatherHistory;
-        let lastItemInWeatherHistory;
+        let lastIndex: number;
+        let firstItemInWeatherHistory: WeatherInfoModel;
+        let preLastItemInWeatherHistory: WeatherInfoModel;
+        let lastItemInWeatherHistory: WeatherInfoModel;
 
         beforeEach(() => {
           lastIndex = testData.weatherInfoArray.length - 1;
@@ -86,7 +86,8 @@ describe.only("WeatherInfo", () => {
             ); // Проверяем, что бывший предпоследним элемент стал последним в Истории
             expect(
               weatherHistory.find(
-                (x) => x.city === lastItemInWeatherHistory.city
+                (x: WeatherInfoModel) =>
+                  x.city === lastItemInWeatherHistory.city
               )
             ).toBeUndefined(); // Проверяем, что бывший последним элемент отсутствует в Истории
           });
@@ -132,12 +133,13 @@ describe.only("WeatherInfo", () => {
 
           expect(
             weatherHistory.filter(
-              (x) => x.city === preLastItemInWeatherHistory.city
+              (x: WeatherInfoModel) =>
+                x.city === preLastItemInWeatherHistory.city
             ).length
           ).toBe(1);
           expect(
             weatherHistory.filter(
-              (x) => x.city === lastItemInWeatherHistory.city
+              (x: WeatherInfoModel) => x.city === lastItemInWeatherHistory.city
             ).length
           ).toBe(1);
         });
@@ -282,9 +284,11 @@ describe.only("WeatherInfo", () => {
     ])(
       "executed correctly",
       ({ translationToWeatherInfoModel, weatherInfo, result }) => {
-        const newWeatherInfo = translationToWeatherInfoModel
-          ? Object.assign(new WeatherInfoModel(), weatherInfo)
-          : weatherInfo;
+        const newWeatherInfo = (
+          translationToWeatherInfoModel
+            ? Object.assign(new WeatherInfoModel(), weatherInfo)
+            : weatherInfo
+        ) as WeatherInfoModel;
 
         test(`returns "${result}" for weatherInfo (instance of ${
           newWeatherInfo instanceof WeatherInfoModel
