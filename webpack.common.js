@@ -17,7 +17,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js)$/,
+        test: /\.[jt]s$/,
         use: "babel-loader",
       },
       {
@@ -29,5 +29,8 @@ module.exports = {
         loader: "html-loader",
       },
     ],
+  },
+  resolve: {
+    extensions: [".ts", ".js"],
   },
 };
