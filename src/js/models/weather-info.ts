@@ -1,22 +1,21 @@
 import { CoordModel } from "./coord";
-import { WeatherInfoType } from "../types/types";
+import { OpenWeatherInfoType, WeatherInfoType } from "../types/types";
 
-export class WeatherInfoModel {
-  city: string = null;
+export class WeatherInfoModel implements WeatherInfoType {
+  city?: string;
 
-  temp: number = null;
+  temp?: number;
 
-  icon: string = null;
+  icon?: string;
 
-  coord: CoordModel = new CoordModel();
+  coord?: CoordModel;
 
-  constructor(weatherInfo?: WeatherInfoType) {
-    this.city = weatherInfo?.name ?? null;
-    this.temp = weatherInfo?.main.temp ?? null;
-    this.icon = weatherInfo?.weather[0].icon ?? null;
-    this.coord = new CoordModel(
-      weatherInfo?.coord.lat ?? null,
-      weatherInfo?.coord.lon ?? null
-    );
+  constructor(weatherInfo?: OpenWeatherInfoType) {
+    this.city = weatherInfo?.name;
+    this.temp = weatherInfo?.main.temp;
+    this.icon = weatherInfo?.weather[0].icon;
+    this.coord = weatherInfo
+      ? new CoordModel(weatherInfo.coord.lat, weatherInfo.coord.lon)
+      : new CoordModel();
   }
 }

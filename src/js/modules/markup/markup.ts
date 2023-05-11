@@ -7,7 +7,9 @@ class Markup {
    * @param {CoordModel} coord Координаты
    */
   addStaticMapOnScreen(coord: CoordModel): void {
-    const weatherInfoBlock = document.getElementById("weather-map");
+    const weatherInfoBlock = document.getElementById(
+      "weather-map"
+    ) as HTMLElement;
     const map = this.createMarkupElement("img", {
       src: `https://static-maps.yandex.ru/1.x/?ll=${coord.longitude},${coord.latitude}&size=650,350&z=12&l=map`,
     });
@@ -20,7 +22,9 @@ class Markup {
    * Добавить на страницу Историю запросов погоды
    */
   addWeatherHistoryOnScreen(): void {
-    const weatherInfoBlock = document.getElementById("weather-history");
+    const weatherInfoBlock = document.getElementById(
+      "weather-history"
+    ) as HTMLElement;
     weatherInfoBlock.innerHTML = "";
 
     const weatherHistory = JSON.parse(
@@ -43,7 +47,7 @@ class Markup {
    * @param {WeatherInfoModel} weatherInfo Информация о погоде
    */
   addWeatherMainOnScreen(weatherInfo: WeatherInfoModel): void {
-    const weatherMain = document.getElementById("weather-main");
+    const weatherMain = document.getElementById("weather-main") as HTMLElement;
     const weatherMainImg = this.createMarkupElement("img", {
       src: `http://openweathermap.org/img/w/${weatherInfo.icon}.png`,
       class: "weather-main__img",

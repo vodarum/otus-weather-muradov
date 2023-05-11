@@ -1,3 +1,8 @@
+type CoordType = {
+  latitude?: number;
+  longitude?: number;
+};
+
 type GeoInfoType = {
   region: string;
   latitude: string;
@@ -16,7 +21,12 @@ type GeoInfoType = {
   continent_code: string;
 };
 
-type WeatherInfoType = {
+type LocationInfoType = CoordType & {
+  country?: string;
+  city?: string;
+};
+
+type OpenWeatherInfoType = {
   coord: {
     lon: number;
     lat: number;
@@ -60,4 +70,17 @@ type WeatherInfoType = {
   cod: number;
 };
 
-export { GeoInfoType, WeatherInfoType };
+type WeatherInfoType = {
+  city?: string;
+  temp?: number;
+  icon?: string;
+  coord?: CoordType;
+};
+
+export {
+  CoordType,
+  GeoInfoType,
+  LocationInfoType,
+  OpenWeatherInfoType,
+  WeatherInfoType,
+};

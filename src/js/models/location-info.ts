@@ -1,18 +1,23 @@
-import { GeoInfoType } from "../types/types";
+import { GeoInfoType, LocationInfoType } from "../types/types";
 import { CoordModel } from "./coord";
 
-export class LocationInfoModel extends CoordModel {
-  country: string = null;
+export class LocationInfoModel extends CoordModel implements LocationInfoType {
+  country?: string;
 
-  city: string = null;
+  city?: string;
+
+  constructor();
+
+  constructor(locationInfo: GeoInfoType);
 
   constructor(locationInfo?: GeoInfoType) {
-    super(
-      locationInfo && locationInfo.latitude ? +locationInfo.latitude : null,
-      locationInfo && locationInfo.longitude ? +locationInfo.longitude : null
-    );
+    if (locationInfo) {
+      super(+locationInfo.latitude, +locationInfo.longitude);
+    } else {
+      super();
+    }
 
-    this.country = locationInfo?.country ?? null;
-    this.city = locationInfo?.city ?? null;
+    this.country = locationInfo?.country;
+    this.city = locationInfo?.city;
   }
 }

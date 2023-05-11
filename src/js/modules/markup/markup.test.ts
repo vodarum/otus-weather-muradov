@@ -14,7 +14,9 @@ describe("Markup", () => {
       Markup.createInitialMarkup();
       Markup.addStaticMapOnScreen(testData.weatherInfoArray[0].coord);
 
-      const weatherInfoMap = document.getElementById("weather-map");
+      const weatherInfoMap = document.getElementById(
+        "weather-map"
+      ) as HTMLElement;
       expect(weatherInfoMap).toBeTruthy();
       expect(weatherInfoMap.childElementCount).toBe(1);
 
@@ -38,7 +40,9 @@ describe("Markup", () => {
 
       beforeEach(() => {
         Markup.createInitialMarkup();
-        weatherHistory = document.getElementById("weather-history");
+        weatherHistory = document.getElementById(
+          "weather-history"
+        ) as HTMLElement;
       });
 
       afterEach(() => {
@@ -93,7 +97,9 @@ describe("Markup", () => {
       Markup.createInitialMarkup();
       Markup.addWeatherMainOnScreen(testData.weatherInfoArray[0]);
 
-      const weatherMain = document.getElementById("weather-main");
+      const weatherMain = document.getElementById(
+        "weather-main"
+      ) as HTMLElement;
       const weatherMainContainedElements = [
         { tagName: "img", class: "weather-main__img" },
         { tagName: "div", class: "weather-main__text" },
@@ -134,24 +140,24 @@ describe("Markup", () => {
     test("creates initial markup", () => {
       Markup.createInitialMarkup();
 
-      const main = document.querySelector("main");
+      const main = document.querySelector("main") as HTMLElement;
       expect(main).toBeTruthy();
 
-      const section = document.querySelector("section");
+      const section = document.querySelector("section") as HTMLElement;
       expect(section).toBeTruthy();
 
-      const title = document.querySelector("h1");
+      const title = document.querySelector("h1") as HTMLHeadingElement;
       expect(title).toBeTruthy();
       expect(title.innerHTML).toBe("Weather App");
 
-      const form = document.getElementById("form");
+      const form = document.getElementById("form") as HTMLFormElement;
       expect(form).toBeTruthy();
 
       const input = document.getElementById("input") as HTMLInputElement;
       expect(input).toBeTruthy();
       expect(input.value).toBe("");
 
-      const btn = document.getElementById("btn");
+      const btn = document.getElementById("btn") as HTMLButtonElement;
       expect(btn).toBeTruthy();
       expect(btn.innerHTML).toBe("Enter");
 
@@ -177,9 +183,20 @@ describe("Markup", () => {
 
     // 5.2) Проверяем корректность создания элементов разметки с заданными атрибутами и их значениями
     describe.each([
-      { tagName: "div", attributes: { class: "wrapper" } },
-      { tagName: "a", attributes: { class: "link", href: "https://otus.ru/" } },
-      { tagName: "button", attributes: { type: "submit", id: "btn" } },
+      {
+        tagName: "div",
+        attributes: { class: "wrapper" } as { [key: string]: string },
+      },
+      {
+        tagName: "a",
+        attributes: { class: "link", href: "https://otus.ru/" } as {
+          [key: string]: string;
+        },
+      },
+      {
+        tagName: "button",
+        attributes: { type: "submit", id: "btn" } as { [key: string]: string },
+      },
     ])("", ({ tagName, attributes }) => {
       test("creates markup element with attributes", () => {
         const newMarkupElement = Markup.createMarkupElement(

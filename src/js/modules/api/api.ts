@@ -1,6 +1,6 @@
 import { LocationInfoModel } from "../../models/location-info";
 import { WeatherInfoModel } from "../../models/weather-info";
-import { WeatherInfoType } from "../../types/types";
+import { GeoInfoType, OpenWeatherInfoType } from "../../types/types";
 
 class API {
   LOCATION_URL = "https://get.geojs.io/v1/ip/geo.json";
@@ -22,7 +22,7 @@ class API {
         throw new Error(`HTTP response status ${response.status}`);
       }
 
-      const json = await response.json();
+      const json = (await response.json()) as GeoInfoType;
 
       result = new LocationInfoModel(json);
     } catch (error) {
@@ -42,8 +42,8 @@ class API {
    * @param {*} longitude Долгота
    */
   async getWeatherInfoByLocationCoord(
-    latitude: number,
-    longitude: number
+    latitude?: number,
+    longitude?: number
   ): Promise<WeatherInfoModel> {
     let result = new WeatherInfoModel();
 
@@ -55,7 +55,7 @@ class API {
         throw new Error(`HTTP response status ${response.status}`);
       }
 
-      const json = (await response.json()) as WeatherInfoType;
+      const json = (await response.json()) as OpenWeatherInfoType;
 
       result = new WeatherInfoModel(json);
     } catch (error) {
@@ -87,7 +87,7 @@ class API {
           throw new Error(`HTTP response status ${response.status}`);
         }
 
-        const json = (await response.json()) as WeatherInfoType;
+        const json = (await response.json()) as OpenWeatherInfoType;
 
         result = new WeatherInfoModel(json);
       } catch (error) {

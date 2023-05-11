@@ -46,8 +46,8 @@ class WeatherInfo {
 
     return (
       coord instanceof CoordModel &&
-      _validateLatitude(coord.latitude) &&
-      _validateLongitude(coord.longitude)
+      _validateLatitude(coord.latitude as number) &&
+      _validateLongitude(coord.longitude as number)
     );
   }
 
@@ -61,7 +61,7 @@ class WeatherInfo {
       Util.isDefined(weatherInfo.city) &&
       Util.isDefined(weatherInfo.temp) &&
       typeof weatherInfo.temp === "number" &&
-      this.validateCoord(weatherInfo.coord)
+      this.validateCoord(weatherInfo.coord as CoordModel)
     );
   }
 }

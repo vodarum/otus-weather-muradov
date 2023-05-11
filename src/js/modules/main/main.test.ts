@@ -32,7 +32,7 @@ describe("Main", () => {
         .mockResolvedValue(new WeatherInfoModel());
       const spySaveStateAndRefresh = jest
         .spyOn(Main, "saveStateAndRefresh")
-        .mockReturnValueOnce(undefined);
+        .mockResolvedValue(undefined);
 
       Main.init();
 
@@ -148,7 +148,7 @@ describe("Main", () => {
           test(`for data-wh-item-id '${whItemId}'`, async () => {
             const weatherInfo = Object.assign(
               new WeatherInfoModel(),
-              testData.weatherInfoArray[whItemId]
+              testData.weatherInfoArray[whItemId as number]
             );
 
             const spyGetWeatherInfoByLocationCoord = jest
@@ -164,8 +164,8 @@ describe("Main", () => {
 
               expect(spyGetWeatherInfoByLocationCoord).toHaveBeenCalledTimes(1);
               expect(spyGetWeatherInfoByLocationCoord).toHaveBeenCalledWith(
-                testData.weatherInfoArray[whItemId].coord.latitude,
-                testData.weatherInfoArray[whItemId].coord.longitude
+                testData.weatherInfoArray[whItemId as number].coord.latitude,
+                testData.weatherInfoArray[whItemId as number].coord.longitude
               );
 
               expect(spySavePrevStateAndRefresh).toHaveBeenCalledTimes(1);

@@ -61,7 +61,7 @@ describe.only("WeatherInfo", () => {
           WeatherInfo.saveWeatherInfo(lastItemInWeatherHistory); // Сохраняем клон последнего элемента
 
           const weatherHistory = JSON.parse(
-            localStorage.getItem("weatherHistory")
+            localStorage.getItem("weatherHistory") as string
           );
 
           expect(weatherHistory.length).toBeLessThanOrEqual(
@@ -76,7 +76,7 @@ describe.only("WeatherInfo", () => {
             WeatherInfo.saveWeatherInfo(weatherInfoForAdding);
 
             const weatherHistory = JSON.parse(
-              localStorage.getItem("weatherHistory")
+              localStorage.getItem("weatherHistory") as string
             );
 
             expect(weatherHistory[0]).toEqual(weatherInfoForAdding); // Проверяем, что добавленный элемент стал первым в Истории
@@ -97,7 +97,7 @@ describe.only("WeatherInfo", () => {
             WeatherInfo.saveWeatherInfo(preLastItemInWeatherHistory);
 
             const weatherHistory = JSON.parse(
-              localStorage.getItem("weatherHistory")
+              localStorage.getItem("weatherHistory") as string
             );
 
             expect(weatherHistory[0]).toEqual(preLastItemInWeatherHistory); // Проверяем, что добавленный элемент (бывший предпоследним) стал первым в Истории
@@ -110,7 +110,7 @@ describe.only("WeatherInfo", () => {
             WeatherInfo.saveWeatherInfo(lastItemInWeatherHistory);
 
             const weatherHistory = JSON.parse(
-              localStorage.getItem("weatherHistory")
+              localStorage.getItem("weatherHistory") as string
             );
 
             expect(weatherHistory[0]).toEqual(lastItemInWeatherHistory); // Проверяем, что добавленный элемент (бывший последним) стал первым в Истории
@@ -128,7 +128,7 @@ describe.only("WeatherInfo", () => {
           WeatherInfo.saveWeatherInfo(lastItemInWeatherHistory); // Еще раз сохраняем клон последнего элемента
 
           const weatherHistory = JSON.parse(
-            localStorage.getItem("weatherHistory")
+            localStorage.getItem("weatherHistory") as string
           );
 
           expect(
@@ -153,7 +153,7 @@ describe.only("WeatherInfo", () => {
           WeatherInfo.saveWeatherInfo(weatherInfoForAdding);
 
           const weatherHistory = JSON.parse(
-            localStorage.getItem("weatherHistory")
+            localStorage.getItem("weatherHistory") as string
           );
 
           expect(weatherHistory[0]).toEqual(weatherInfoForAdding);
