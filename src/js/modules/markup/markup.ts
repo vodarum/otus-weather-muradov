@@ -1,10 +1,15 @@
+import { CoordModel } from "../../models/coord";
+import { WeatherInfoModel } from "../../models/weather-info";
+
 class Markup {
   /**
    * Добавить изображение карты по координатам
-   * @param {Coord} coord Координаты
+   * @param {CoordModel} coord Координаты
    */
-  addStaticMapOnScreen(coord) {
-    const weatherInfoBlock = document.getElementById("weather-map");
+  addStaticMapOnScreen(coord: CoordModel): void {
+    const weatherInfoBlock = document.getElementById(
+      "weather-map"
+    ) as HTMLElement;
     const map = this.createMarkupElement("img", {
       src: `https://static-maps.yandex.ru/1.x/?ll=${coord.longitude},${coord.latitude}&size=650,350&z=12&l=map`,
     });
@@ -16,8 +21,10 @@ class Markup {
   /**
    * Добавить на страницу Историю запросов погоды
    */
-  addWeatherHistoryOnScreen() {
-    const weatherInfoBlock = document.getElementById("weather-history");
+  addWeatherHistoryOnScreen(): void {
+    const weatherInfoBlock = document.getElementById(
+      "weather-history"
+    ) as HTMLElement;
     weatherInfoBlock.innerHTML = "";
 
     const weatherHistory = JSON.parse(
@@ -27,7 +34,7 @@ class Markup {
     for (let i = 0, count = weatherHistory.length; i < count; i++) {
       const wrapper = this.createMarkupElement("span", {
         class: "weather-history__item",
-        "data-wh-item-id": i,
+        "data-wh-item-id": `${i}`,
       });
       wrapper.innerHTML = weatherHistory[i].city;
 
@@ -39,8 +46,8 @@ class Markup {
    * Добавить на страницу информацию о погоде в выбранном населённом пункте
    * @param {WeatherInfoModel} weatherInfo Информация о погоде
    */
-  addWeatherMainOnScreen(weatherInfo) {
-    const weatherMain = document.getElementById("weather-main");
+  addWeatherMainOnScreen(weatherInfo: WeatherInfoModel): void {
+    const weatherMain = document.getElementById("weather-main") as HTMLElement;
     const weatherMainImg = this.createMarkupElement("img", {
       src: `http://openweathermap.org/img/w/${weatherInfo.icon}.png`,
       class: "weather-main__img",
@@ -63,7 +70,7 @@ class Markup {
   /**
    * Создать базовую разметку страницы
    */
-  createInitialMarkup() {
+  createInitialMarkup(): void {
     const main = this.createMarkupElement("main", { class: "main" });
     const section = this.createMarkupElement("section", { class: "section" });
     const title = this.createMarkupElement("h1", { class: "title" });
@@ -116,7 +123,10 @@ class Markup {
    * @param {string} tagName Название тега
    * @param {*} attributes Список атрибутов и их значения для элемента разметки
    */
-  createMarkupElement(tagName, attributes) {
+  createMarkupElement(
+    tagName: string,
+    attributes: { [key: string]: string }
+  ): HTMLElement {
     const newMarkupElement = document.createElement(tagName);
 
     Object.entries(attributes).forEach(([attributeName, attributeValue]) => {
@@ -129,7 +139,7 @@ class Markup {
   /**
    * Удалить разметку
    */
-  removeMarkup() {
+  removeMarkup(): void {
     document.body.innerHTML = "";
   }
 }

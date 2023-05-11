@@ -3,8 +3,11 @@ import API from "../api/api";
 import Markup from "../markup/markup";
 import WeatherInfo from "../weather-info/weather-info";
 import Util from "../../util/util";
+import { CoordModel } from "../../models/coord";
 
 class Main {
+  mainWeatherInfo: WeatherInfoModel;
+
   constructor() {
     this.mainWeatherInfo = new WeatherInfoModel();
   }
@@ -18,19 +21,25 @@ class Main {
 
     // 2) Вешаем обработчики на элементы страницы
     // 2.1) на форму отправки запроса информации о погоде
-    const form = document.getElementById("form");
+    const form = document.getElementById("form") as HTMLFormElement;
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       this.search();
     });
 
     // 2.2) на блок "История"
-    const weatherHistoryBlock = document.getElementById("weather-history");
+    const weatherHistoryBlock = document.getElementById(
+      "weather-history"
+    ) as HTMLElement;
     weatherHistoryBlock.addEventListener("click", (event) => {
-      const weatherHistoryItem = event.target.closest(".weather-history__item");
+      const weatherHistoryItem = (event.target as HTMLElement).closest(
+        ".weather-history__item"
+      );
 
       if (weatherHistoryItem) {
-        this.selectItemFromWeatherHistory(weatherHistoryItem.dataset.whItemId);
+        this.selectItemFromWeatherHistory(
+          (weatherHistoryItem as HTMLElement).dataset.whItemId as string
+        );
       }
     });
 
@@ -53,14 +62,14 @@ class Main {
    * Сохранить состояние и обновить главный экран
    * @param {WeatherInfoModel} weatherInfo
    */
-  async saveStateAndRefresh(weatherInfo) {
+  async saveStateAndRefresh(weatherInfo: WeatherInfoModel) {
     if (WeatherInfo.validateWeatherInfo(weatherInfo)) {
       WeatherInfo.saveWeatherInfo(weatherInfo);
 
       this.mainWeatherInfo = weatherInfo;
 
       Markup.addWeatherMainOnScreen(this.mainWeatherInfo);
-      Markup.addStaticMapOnScreen(this.mainWeatherInfo.coord);
+      Markup.addStaticMapOnScreen(this.mainWeatherInfo.coord as CoordModel);
       Markup.addWeatherHistoryOnScreen();
     }
   }
@@ -69,7 +78,7 @@ class Main {
    * Выбрать элемент Истории
    * @param {string} id ID записи Истории
    */
-  async selectItemFromWeatherHistory(id) {
+  async selectItemFromWeatherHistory(id: string) {
     if (!Util.isDefined(id)) {
       return;
     }
@@ -89,7 +98,7 @@ class Main {
    * Найти информацию о погоде в выбранном населенном пункте
    */
   async search() {
-    const input = document.getElementById("input");
+    const input = document.getElementById("input") as HTMLInputElement;
 
     try {
       const weatherInfoByLocationName = await API.getWeatherInfoByLocationName(

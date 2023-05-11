@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
     "jest/globals": true,
   },
-  extends: ["airbnb-base", "prettier"],
+  extends: ["airbnb-base", "plugin:@typescript-eslint/recommended", "prettier"],
   overrides: [],
   parserOptions: {
     ecmaVersion: "latest",
@@ -24,6 +24,16 @@ module.exports = {
         ],
       },
     ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        js: "never",
+        jsx: "never",
+        ts: "never",
+        tsx: "never",
+      },
+    ],
     "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
     "import/prefer-default-export": "off",
     "max-len": [
@@ -40,6 +50,15 @@ module.exports = {
     "no-param-reassign": "off",
     "no-plusplus": "off",
     "no-underscore-dangle": 0,
+    "no-useless-constructor": 0,
     "prefer-destructuring": ["error", { object: true, array: false }],
+    "@typescript-eslint/no-var-requires": "off",
+  },
+  settings: {
+    "import/resolver": {
+      node: {
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
+      },
+    },
   },
 };
